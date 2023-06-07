@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Listado Series</title>
+        <!-- Para los recursos estáticos (css, js, img, etc.) rutas absolutas (empiezan por /). -->
+        <link rel="stylesheet" href="/sitioMultimedia_web/css/mystyle.css"/>
+        <link rel="stylesheet" href="/sitioMultimedia_web/css/bootstrap.min.css"/>
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <!-- DataTables -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,200" />
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+
+    </head>
+    <body class="d-flex flex-column min-vh-100">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item fs-3 fw-bold px-5">
+                        <a href="../index.html" class="nav-link ">Home</a>
+                    </li>
+                    <li class="nav-item fs-3 fw-bold px-5">
+                        <a href="../peliculas.html" class="nav-link ">Peliculas</a>
+                    </li>
+                    <li class="nav-item fs-3 fw-bold px-5">
+                        <a href="../libros.html" class="nav-link ">Libros</a>
+                    </li>
+                    <li class="nav-item fs-3 fw-bold px-5">
+                        <a href="../musica.html" class="nav-link ">Musica</a>
+                    </li>
+                    <li class="nav-item fs-3 fw-bold px-5">
+                        <a href="serie/listado" class="nav-link active">Series</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main class="d-flex flex-column justify-content-center align-items-center flex-grow-1">
+            <table id="table-id" data-toggle="table" data-pagination="true" data-sortable="true" class="table table-striped">
+                <thead>
+                    <tr style="text-align: center">
+                        <th scope="col">#</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Género</th>
+                        <th scope="col">Sinopsis</th>
+                        <th scope="col">Año de Estreno</th>
+                        <th scope="col">Duración</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="text-align: center" th:each="serie, iterStat : ${series}">
+                        <th scope="row" th:text="${iterStat.count}">1</th>
+                        <td th:text="${serie.titulo}">Stranger Things</td>
+                        <td th:text="${serie.genero}">Drama, Suspense</td>
+                        <td th:text="${serie.sinopsis}">A raíz de la desaparición de un niño, un pueblo desvela un misterio relacionado con experimentos secretos, fuerzas sobrenaturales aterradoras y una niña muy extraña</td>
+                        <td th:text="${serie.anoEstreno}">2016</td>
+                        <td th:text="${serie.duracion}">50</td>
+                        <td style="    text-align: center;
+                            display: flex;
+                            align-content: center;
+                            justify-content: space-evenly;">
+                            <a style="margin:10px; color: green;" th:href="@{/serie/formulario(serie_id=${serie.serie_id})}" ><span class="material-symbols-outlined">
+                                    edit
+                                </span></a>
+                            <a style="margin:10px; color: red;" href="javascript:void(0);" th:attr="onclick='deleteSerie(\'' + ${serie.serie_id} + '\')'"><span class="material-symbols-outlined">
+    								delete_forever
+							</span></a>
+
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div class="d-flex justify-content-center w-100">
+                <a href="serie/formulario" class="btn btn-success mt-4" style="background-color: #624802">Añadir Serie</a>
+            </div>
+        </main>
+        <footer class="mt-auto">
+            <h1>
+                <span th:text="#{listado.welcome}"></span>
+                <span th:text="#{listado.author}"></span>
+            </h1>
+        </footer>
+
+        <script src="/sitioMultimedia_web/js/bootstrap.bundle.min.js"></script>
+        <script>
+        $(document).ready(function () {
+            $("#table-id").DataTable();
+        });
+
+        function deleteSerie(serie_id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", '/sitioMultimedia_web/serie/eliminar?serie_id=' + serie_id, true);
+            xhr.onload = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert('Borrado con éxito!');
+                    location.reload();
+                } else {
+                    console.error(xhr.responseText);
+                }
+            }
+            xhr.send(null);
+        }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Servlet Serie</title>
+        <link rel="stylesheet" href="/sitioMultimedia_web/css/mystyle.css"/>
+        <link rel="stylesheet" href="/sitioMultimedia_web/css/bootstrap.min.css" />
+    </head>
+
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item fs-3 fw-bold px-5">
+                        <a href="indexServlet" class="nav-link active">Home</a>
+                    </li>
+                    <li class="nav-item fs-3 fw-bold px-5">
+                        <a href="serie/listado" class="nav-link">Listado</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <h3 class="ps-3 pt-3" th:text="#{formularios.textoformulario}">Debe rellenar:</h3>
+
+
+            <div class="container px-5">
+
+                <form id="serieForm" action="sitioMultimedia_web/serie/formulario" method="POST">
+                    <div class="mb-3">
+                        <!-- <label for="name" class="form-label"><span th:text="#{formularios.id}">Id: </span></label>  -->
+                        <input type="hidden" name="serie_id" th:value="${serie != null ? serie.serie_id : ''}" enabled="false"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label"><span th:text="#{formularios.titulo}">Título: </span></label>
+                        <input type="text" placeholder="Titulo" class="form-control" name="titulo" th:value="${serie != null ? serie.titulo : ''}" required="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="genero" class="form-label"><span th:text="#{formularios.genero}">Género: </span></label>
+                        <input type="text" placeholder="Género" class="form-control" name="genero" th:value="${serie != null ? serie.genero : ''}" required="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="siopsis" class="form-label"><span th:text="#{formularios.sinopsis}">Sinopsis: </span></label>
+                        <input type="text" placeholder="Sinopsis" class="form-control" name="sinopsis" th:value="${serie != null ? serie.sinopsis : ''}">
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="anoEstreno" class="form-label"><span th:text="#{formularios.anoEstreno}">Año de estreno: </span></label>
+                        <input type="number" placeholder="Año de Publicacion" class="form-control" name="anoEstreno" th:value="${serie != null ? serie.anoEstreno : ''}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="duracion" class="form-label"><span th:text="#{formularios.duracion}">Duracion:(Minutes) </span></label>
+                        <input type="datetime" min="15" placeholde1r="120" class="form-control" name="duracion" th:value="${serie != null ? serie.duracion : ''}" required>
+                    </div>
+                    <div class="mb-3 text-center">
+				        <input type="reset" class="btn btn-primary" value="Borrar" th:attr="value=#{formularios.reset}"></input>
+				        <input type="submit" class="btn btn-primary" value="Enviar" th:attr="value=#{formularios.submit}"></input>
+				    </div>
+                </form>
+
+            </div>
+
+        </main>
+        <footer>
+            <h1>
+                <span th:text="#{formularios.welcome}"></span>
+                <span th:text="#{formularios.author}"></span>
+            </h1>
+        </footer>
+        <script src="/sitioMultimedia_web/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</html>
